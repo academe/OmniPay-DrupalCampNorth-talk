@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>OmniPay - The PHP Library for Payment Gateways</title>
+
+		<meta name="description" content="Payment gateways are hard to integrate. OmniPay helps to make is easier through a more consistent interface.">
+		<meta name="author" content="Jason Judge">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<link rel="stylesheet" type="text/css" href="lib/css/ri-grid.css" />
+		<script type="text/javascript" src="lib/js/modernizr.custom.26633.js"></script>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<!-- This MUST appear here for the colour coding to work -->
+		<pre style="display:none;"><code></code></pre>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>OmniPay</h1>
+					<h3>The PHP Library for Payment Gateways</h3>
+					<p>
+						<small>
+							Presentation
+							for <a href="http://twitter.com/PHPNE">@PHPNE</a>
+							by <a href="http://academe.co.uk">Jason Judge</a>
+							/ <a href="http://twitter.com/JasonDJudge">@JasonDJudge</a>
+						</small>
+					</p>
+					<p>
+						<small>
+							(Speaker notes are in this slideshow for more background - press 'S' to see them)
+						</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>The Problems to Solve</h2>
+					<ul>
+						<li>To abstract the gateway</li>
+						<li>To switch gateways more easily</li>
+						<li>To avoid supplied SDKs - they are awful</li>
+						<li>To provide the common services<br \>(authorize/void/capture/payment)</li>
+					</ul>
+					<aside class="notes" data-markdown>
+						* To provide a simple way to add payment gateways to your system,
+						  without having to understand too much about the specific gateways.
+						* To be able to switch between gateways easily through a consistent interface.
+						* To avoid needing to use the SDKs that gateway providers supply,
+						  because most of them are awful.
+						* Scope: authorize/void/capture/payment – simple shop stuff.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Basic Architecture</h2>
+					<ul>
+						<li>Composer-based</li>
+						<li>Core <code>omnipay/common</code> package</li>
+						<li>Official <code>omnipay/{gateway-name} drivers</code></li>
+						<li>Unofficial third party drivers</li>
+						<li>All drivers built from low-level specs; no SDKs</li>
+					</ul>
+					<aside class="notes" data-markdown>
+						* Unofficial drivers don't sit in the OmniPay namespace.
+						* Unofficial drivers are still listed on the OmniPay website.
+						* Only pull the drivers you want; not composer package
+						  `omnipay/omnipay`, which pulls in everything it knows about.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Some Figures</h2>
+					<ul>
+						<li>Version: 2.3.x</li>
+						<li>PHP: 5.3+</li>
+						<li>Official gateways: 27</li>
+						<li>Unofficial gateways: 25</li>
+						<li>Dependencies: Guzzle, Symfony</li>
+						<li>Author: Adrian Macneil, now The PHP League with many contributors</li>
+					</ul>
+				</section>
+
+				<section data-background="#99ff99">
+					<section>
+						<h2>Official Gateways (1)</h2>
+						<div data-markdown>
+						* omnipay/2checkout
+						* omnipay/authorizenet
+						* omnipay/buckaroo
+						* omnipay/cardsave
+						* omnipay/coinbase
+						* omnipay/common
+						* omnipay/dummy
+						* omnipay/eway
+						* omnipay/firstdata
+						* omnipay/gocardless
+						</div>
+					</section>
+
+					<section>
+						<h2>Official Gateways (2)</h2>
+						<div data-markdown>
+						* omnipay/manual
+						* omnipay/migs
+						* omnipay/mollie
+						* omnipay/multisafepay
+						* omnipay/netaxept
+						* omnipay/netbanx
+						* omnipay/payfast
+						* omnipay/payflow
+						* omnipay/paymentexpress
+						* omnipay/paypal
+						</div>
+					</section>
+
+					<section>
+						<h2>Official Gateways (3)</h2>
+						<div data-markdown>
+						* omnipay/pin
+						* omnipay/sagepay
+						* omnipay/securepay
+						* omnipay/stripe
+						* omnipay/targetpay
+						* omnipay/worldpay
+						</div>
+					</section>
+				</section>
+
+				<section data-background="#ffcc99">
+					<section>
+						<h2>Unofficial Gateways (1)</h2>
+						<div data-markdown>
+						* academe/omnipay-helcim
+						* agmscode/omnipay-agms
+						* alfaproject/omnipay-neteller
+						* alfaproject/omnipay-skrill
+						* andreas22/omnipay-fasapay
+						* andylibrian/omnipay-veritrans
+						* cardgate/omnipay-cardgate
+						* coatesap/omnipay-datacash
+						* coatesap/omnipay-paymentsense
+						* coatesap/omnipay-realex
+						</div>
+					</section>
+					<section>
+						<h2>Unofficial Gateways (2)</h2>
+						<div data-markdown>
+						* dabsquared/omnipay-cybersource-soap
+						* delatbabel/omnipay-fatzebra
+						* dercoder/omnipay-ecopayz
+						* dercoder/omnipay-globalcloudpay
+						* dioscouri/omnipay-cybersource
+						* fruitcakestudio/omnipay-sisow
+						* igaponov/omnipay-wirecard
+						* justinbusschau/omnipay-secpay
+						* lokielse/omnipay-alipay
+						* mfauveau/omnipay-nmi
+						</div>
+					</section>
+					<section>
+						<h2>Unofficial Gateways (3)</h2>
+						<div data-markdown>
+						* mfauveau/omnipay-pacnet
+						* omnipay/payu
+						* paypronl/omnipay-paypro
+						* samvaughton/omnipay-barclays-epdq
+						* teaandcode/omnipay-worldpay-xml
+						</div>
+					</section>
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>That's a Lot of Payment Gateways</h2>
+					<div id="ri-grid" class="ri-grid ri-grid-size-2">
+						<img class="ri-loading-image" src="images/loading.gif"/>
+						<ul>
+							<li><a href="#"><img src="logos/resized/2checkout-logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/15.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/406.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/1408.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/2000px-Pacnet_Logo.svg.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/2000px-Wirecard_Logo.svg.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/1303311867.barclays-epdq-1.0-693x200.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/authentication-logo-b54d2f9b867bb352f5169d66c3eceffc.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/Authorizenet_logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/black.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/cloudpay_logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/coinbase_logo_white.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/cybersource.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/cyber-source.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/DataCash_logo_sm.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/ecopayz-med-rez.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/fasapay.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/first-data-logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/gocardless_logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/HelcimInc-LogoV-PNG-300.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/latest.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/logo-eway_1.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/logo-sisow_epsblock_trans.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/migs_copy_1.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/mollielogo1.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/multisafepay-logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/nbx-green-white-800x304.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/New-CardSave-Logo-tm.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/OP+Neteller-Logo--BIG.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/PayFast-logo.png"/></a></li>
+
+							<li><a href="#"><img src="logos/Payflow_Mark_Color__Screen_RGB.png"/></a></li>
+							<li><a href="#"><img src="logos/PaymentSenseLogo.jpg"/></a></li>
+							<li><a href="#"><img src="logos/paypal_logo.jpg"/></a></li>
+							<li><a href="#"><img src="logos/payu.jpg"/></a></li>
+							<li><a href="#"><img src="logos/pxlogostackedreg.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/rbsworldpay-logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/Realex-Payments.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/sagepay-logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/SecPay_logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/securepay_logo.png"/></a></li>
+
+							<li><a href="#"><img src="logos/resized/skrill-logo.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/targetpay.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/veritrans.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/worldpay_logo_detail.png"/></a></li>
+							<li><a href="#"><img src="logos/resized/Z4F_4ed5b49905e5c28fba09b54941fa0f7ccardgate_logo.png"/></a></li>
+						</ul>
+						</p><small>Refresh the page if you don't see the logos in their animated glory!</small></p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Gateway Architectures</h2>
+					<ul>
+						<li>Direct
+							<ul>
+								<li class="fragment">Server to Server</li>
+								<li class="fragment">High PCI responsibility</li>
+							</ul>
+						</li>
+						<li class="fragment">Hosted
+							<ul>
+								<li class="fragment">User leaves the site (can use iframe)</li>
+								<li class="fragment">Result sent back by notify channel</li>
+							</ul>
+						</li>
+						<li class="fragment">Shared
+							<ul>
+								<li class="fragment">JavaScript or direct POST from browser</li>
+								<li class="fragment">Back channel used to check the results</li>
+							</ul>
+						</li>
+					</ul>
+					<aside class="notes" data-markdown>
+						## Direct
+						* These gateway APIs just handle server talking to server. 
+						  There is no user interaction at all, so any user input must pass
+						  through your server before it is passed to the gateway to get a
+						  result. Only do this if you have a big budget to cater for the
+						  intense PCI scrutiny to get compliance.
+						* Note that with 3D Secure and suchlike, the user may still have
+						  to be sent to a third-party site to fill out some security details.
+						## Hosted
+						* The user is taken to the payment gateway to complete their details.
+						  On return, the transaction is completed according to the authorisation
+						  result. There are variations on this:
+						  * The remote site can be in an iframe, so the user appears not to
+						    have left the main site.
+						  * The result can be sent back via the user’s browser, with an
+						    encrypted GET parameter.
+						  * The result can be sent back via a notification URL. The
+						    consequences of this, are that you need to keep the transaction
+						    in non-volatile storage that can be shared between the user’s
+						    session, and the session-less notification handler.
+						## Shared
+						* In this type of gateway, the payment form is on your site, but the
+						  credit card details are never submitted directly to your site.
+						  There are two ways this works:
+						  * JavaScript API, where the form submission is caught by JavaScript
+						    and POSTed direct to the gateway site. The response is either an
+						    error message indicating what needs to be corrected on the form,
+						    or the result is added to the form and it is then allowed to post
+						    direct back to you site (without the credit card details).
+						    The user never leaves your site.
+						  * The form is POSTed direct to the gateway site. The details are
+						    verified and the result is POSTed direct to your site (usually
+						    via a back-channel) and the user is then returned back to your
+						    site. The user is taken away from your site, but only for a moment,
+						    and with no interaction.
+					</aside>
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>How to Use OmniPay</h2>
+					<ul>
+						<li>OmniPay handles the messaging</li>
+						<li>You handle the routing and data</li>
+					</ul>
+
+					<img src="images/simples.jpg" class="fragment" />
+				</section>
+
+				<section>
+					<h2>General Use</h2>
+					<p>1. Create the Gateway Object:</p>
+					<div data-markdown>
+					~~~php
+					$gateway = OmniPay::create('SagePay\Direct')
+						->setVendor('academe')
+						->setTestMode(true);
+					~~~
+					</div>
+					<p>All credentials are set at this stage:</p>
+					<div data-markdown>
+					~~~php
+						->setAccount('myAccount')
+						->setKey('myKey')
+						->setSecret('mySecret')
+					~~~
+					</div>
+				</section>
+
+				<section>
+					<h2>General Use</h2>
+					<p>2. Create the Credit Card/Customer Object:</p>
+					<div data-markdown>
+					~~~php
+					$card = new CreditCard([
+						'firstName' => 'Jason',
+						'lastName' => 'Judge',
+
+						'number' => '4929000000006',
+						'expiryMonth' => '12',
+						'expiryYear' => '2016',
+						'CVV' => '123',
+
+						'billingAddress1' => 'Campus North',
+						'billingCity' => 'Newcastle Upon Tyne',
+						// ...
+
+						'shippingAddress1' => 'Campus North',
+						// ...
+					]);
+					~~~
+					</div>
+				</section>
+
+				<section>
+					<h2>General Use</h2>
+					<p>3. Create the Request Message:</p>
+					<div data-markdown>
+					~~~php
+					// Purchase Request
+					$requestMessage = $gateway->purchase([
+						'amount' => '99.99',
+						'currency' => 'GBP',
+						'card' => $card,
+						'transactionId' => $transactionId,
+						'description' => 'Pizzas for everyone',
+
+						'returnUrl' => 'http://example.com/complete',
+						'cancelUrl' => 'http://example.com/complete',
+						'errorUrl' => 'http://example.com/complete',
+					]);
+					~~~
+					</div>
+				</section>
+
+				<section>
+					<h2>General Use</h2>
+					<p>4. Send the request message:</p>
+					<div data-markdown>
+					~~~php
+					$responseMessage = $requestMessage->send();
+					~~~
+					</div>
+					<p>Get a Response message in return.</p>
+					<p>Handle any exceptions.</p>
+				</section>
+
+				<section>
+					<h2>General Use</h2>
+					<p>5. Take next action based on response:</p>
+					<div data-markdown>
+					~~~php
+					if ($responseMessage->isSuccessful()) {
+						// All finished and all successful.
+						// ...
+					} elseif ($responseMessage->isRedirect()) {
+						// Do the redirect.
+						$responseMessage->redirect();
+					} else {
+						// Some kind of error: 
+						// Log $responseMessage->getMessage();
+						// ...
+					}
+					~~~
+					</div>
+					<p>Some gateways may have other required actions.</p>
+				</section>
+
+				<section>
+					<h2>General Use</h2>
+					<p>6. If returning from a redirect:</p>
+					<p>Repeat steps 1-5 with the "complete" version of the service.</p>
+					<div data-markdown>
+					~~~php
+					// Use completePurchase() to complete the Purchase.
+					$requestMessage = $gateway->completePurchase([
+						'transactionId' => $transactionId,
+						'transactionReference' => $transactionReference,
+					]);
+
+					$responseMessage = $requestMessage->send();
+
+					// Then check the result as before.
+					~~~
+					</div>
+
+					<aside class="notes" data-markdown>
+					Some notes:
+					* The messages are active messages; they “send” themselves.
+					* Sending a message may or may not involve the remote gateway.
+					  For direct gateway APIs it will, for others, often not (but it may).
+					* The messages honour a standard interface, so details provided and results
+					  received will be done through a common set of methods. Gateway drivers will
+					  often extend those interfaces to support features only that gateway has.
+					* The messages translate the fields for you, between OmniPay field names
+					  and gateway field names.
+					* The messages use the appropriate HTTP service of Guzzle to send and receive
+					  data in the right format. You don’t need to worry about the HTTP body formats.
+					</aside>
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>Integration</h2>
+					<img src="images/laravel-logo-white.png" />
+
+					<div data-markdown>
+					* composer: ignited/laravel-omnipay - Alex Whiteside
+					* composer: barryvdh/laravel-omnipay - Barry vd. Heuvel
+					</div>
+				</section>
+
+				<section data-background="#ddddff">
+					<h2>Example Application</h2>
+					<div data-markdown>
+					* github: thephpleague/omnipay-example
+					</div>
+					<img src="images/example-app3.png" style="border: none; box-shadow: none; background-color: transparent;" />
+				</section>
+
+				<section>
+					<h2>Gateway Trends</h2>
+					<ul>
+						<li>More going for "shared" option, using JavaScript or direct POSTing.</li>
+						<li>Token-based payments are becoming more popular as the number of subscription services grow.</li>
+					</ul>
+
+					<aside class="notes" data-markdown>
+					* Stripe popularised the idea that payment gateways can rely on
+					  JavaScript to perform the communications, and that can mean the
+					  customer not ever having to leave your site. All the major gateways
+					  are leaping into this approach. I hear a rumour that even SagePay
+					  is going to launch one of these very soon. JavaScript posting makes
+					  PCI compliance a little lighter.
+					* Token-based APIs are becoming more popular, allowing a site to get
+					  authorization to take a payment, or multiple payments, at a later date
+					  using a token that does not require the storage of credit card numbers
+					  (which we hope no-one is doing anyway).
+					</aside>
+				</section>
+
+				<section>
+					<h2>OmniPay Version 3.0</h2>
+					<ul>
+						<li>Planned for end 2015</li>
+						<li>Improved Documentation</li>
+						<li>Namespace change to <code>League\Omnipay\{gateway-name}</code></li>
+						<li>Remove dependencies: Guzzle and Symfony</li>
+						<li>PSR-7 HTTP models will be used instead</li>
+						<li>Splitting the credid card and the payee details</li>
+						<li>More metadata to automate plumbing better</li>
+					</ul>
+
+					<aside class="notes" data-markdown>
+					* Maybe more metadata to help automate the plumbing, e.g. defining
+					  capabilities in more detail and listing what fields are mandatory
+					  or optional, and what validation needs to be applied to them.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Demo Time</h2>
+					<img class="fragment" src="images/a-what-could-possibly-go-wrong.jpg" style="max-height: 500px" />
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>Demo: SagePay Direct</h2>
+					<!-- <object type="image/svg+xml" data="images/SagePayDirect-Sequence.svg">Your browser does not support SVG</object> -->
+					<img src="images/SagePayDirect-Sequence.svg" style="width: 100%; height: auto;" />
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>Demo: SagePay Direct</h2>
+					<ul>
+						<li>One script:
+							<ul>
+								<li><code>authorise.php</code></li>
+							</ul>
+						</li>
+						<li>User stays on one site</li>
+						<li>Authorisation in one step</li>
+					</ul>
+					<p>
+						The full demo scripts are available at<br />
+						<a href="https://github.com/academe/OmniPay-SagePay-Demo">https://github.com/academe/OmniPay-SagePay-Demo</a>
+					</p>
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>Demo: Switch to SagePay Server</h2>
+					<!-- <object type="image/svg+xml" data="images/SagePayServer-Sequence.svg">Your browser does not support SVG</object> -->
+					<img src="images/SagePayServer-Sequence.svg" style="xwidth: 100%; xheight: auto;" />
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>Demo: Switch to SagePay Server</h2>
+					<ul>
+						<li>Three scripts (for the three steps):
+							<ul>
+								<li><code>authorise.php</code></li>
+								<li><code>sagepay-confirm.php</code></li>
+								<li><code>final.php</code></li>
+							</ul>
+						</li>
+						<li>User redirected to SagePay site</li>
+					</ul>
+				</section>
+
+				<section data-background="images/thats-all-folks-7172-1920x1200.jpg" data-transition="fade">
+					<h2>Thank You</h2>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p>Feedback most welcome</p>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+		<script type="text/javascript" src="lib/js/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/js/jquery.gridrotator.js"></script>
+		<script type="text/javascript">	
+			$(function() {
+				$( '#ri-grid' ).gridrotator( {
+					rows		: 3,
+					columns		: 4,
+					animType	: 'fadeInOut',
+					animSpeed	: 500,
+					interval	: 600,
+					step		: 4,
+					w320		: {
+						rows	: 3,
+						columns	: 4
+					},
+					w240		: {
+						rows	: 3,
+						columns	: 4
+					}
+				} );
+			});
+		</script>
+	</body>
+</html>
