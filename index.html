@@ -51,55 +51,110 @@
 					<p>
 						<small>
 							Presentation
-							for <a href="http://twitter.com/PHPNE">@PHPNE</a>
+							for <a href="http://drupalcampnorth.org/">DrupalCamp North</a>
+							/ <a href="http://twitter.com/DrupalCampNE">@DrupalCampNE</a>
 							by <a href="http://academe.co.uk">Jason Judge</a>
 							/ <a href="http://twitter.com/JasonDJudge">@JasonDJudge</a>
 						</small>
 					</p>
 					<p>
 						<small>
-							(Speaker notes are in this slideshow for more background - press 'S' to see them)
+							(Background notes are in these slides - press 'S' to see them)
 						</small>
 					</p>
 				</section>
 
 				<section>
+					<h2>What Are Payment Gateways?</h2>
+
+					<ul>
+						<li class="fragment">The means to collect payment from a user</li>
+						<li class="fragment">The means to authorise payment from a user</li>
+						<li class="fragment">The means to collect against authorisation</li>
+						<li class="fragment">All through web services</li>
+					</ul>
+				</section>
+
+<!-- Current state of affairs in Drupal -->
+
+				<section>
+					<h2>Drupal Payment Gateways</h2>
+					<ul>
+						<li class="fragment">Gateway modules built for projects
+							<ul>
+								<li class="fragment" style="list-style-type: none;"><img src="images/ubercart-cropped.png" alt="Ubercart" style="height: 120px" /></li>
+								<li class="fragment" style="list-style-type: none;"><img src="images/DCLogo_2C_on_white_0.png" alt="Drupal Commerce" style="height: 120px" /></li>
+								<li class="fragment">Other commerce projects</li>
+							</ul>
+							<li class="fragment">Much duplication</li>
+							<li class="fragment">Inconsistent support of gateways</li>
+						</li>
+					</ul>
+				</section>
+
+				<section>
 					<h2>The Problems to Solve</h2>
 					<ul>
-						<li>To abstract the gateway</li>
-						<li>To switch gateways more easily</li>
-						<li>To avoid supplied SDKs - they are awful</li>
-						<li>To provide the common services<br \>(authorize/void/capture/payment)</li>
+						<li class="fragment">The gateways are all so different; can we abstract them?</li>
+						<li class="fragment">Difficult to switch between gateways</li>
+						<li class="fragment">Gateway supplied SDKs are <em>awful</em></li>
+						<li class="fragment">To provide the common services easily<br \>(authorize/void/capture/payment)</li>
 					</ul>
 					<aside class="notes" data-markdown>
+						* There are many gateways out there, all operating differently, and with their
+						  own quirks. Which you use will depend largely on business needs, so you need
+						  to be able to plug in whatever gateway at a technical level.
 						* To provide a simple way to add payment gateways to your system,
 						  without having to understand too much about the specific gateways.
 						* To be able to switch between gateways easily through a consistent interface.
 						* To avoid needing to use the SDKs that gateway providers supply,
-						  because most of them are awful.
+						  because most of them suck.
 						* Scope: authorize/void/capture/payment – simple shop stuff.
 					</aside>
 				</section>
 
+<!-- Onsite/offsite - the same in their differences -->
+
 				<section>
-					<h2>Basic Architecture</h2>
+					<h2>The Drupal Payment Module</h2>
 					<ul>
-						<li>Composer-based</li>
-						<li>Core <code>omnipay/common</code> package</li>
-						<li>Official <code>omnipay/{gateway-name} drivers</code></li>
-						<li>Unofficial third party drivers</li>
-						<li>All drivers built from low-level specs; no SDKs</li>
+						<li class="fragment">Plugable platform for processing payments</li>
+						<li class="fragment">Solves the duplication problem:<br />
+							<img src="images/drupal-payment-overview.png" style="width: 80%" />
+						</li>
+					</ul>
+				</section>
+
+<!-- Payment module -->
+
+
+<!-- Introducing OmniPay! -->
+
+
+
+				<section>
+					<h2>OmniPay Basic Architecture</h2>
+					<ul>
+						<li class="fragment">Installed using composer</li>
+						<li class="fragment">Core <code>omnipay/common</code> package</li>
+						<li class="fragment">Official <code>omnipay/{gateway-name}</code> drivers</li>
+						<li class="fragment">Unofficial third party drivers</li>
+						<li class="fragment">All drivers built from message specs; no SDKs</li>
 					</ul>
 					<aside class="notes" data-markdown>
 						* Unofficial drivers don't sit in the OmniPay namespace.
 						* Unofficial drivers are still listed on the OmniPay website.
-						* Only pull the drivers you want; not composer package
-						  `omnipay/omnipay`, which pulls in everything it knows about.
+						* Only pull the drivers you want.
+						* composer package `omnipay/omnipay` will pull in all drivers it knows about.
 					</aside>
 				</section>
 
+
+<!-- Introducing composer - slight diversion -->
+
+
 				<section>
-					<h2>Some Figures</h2>
+					<h2>Some Current Figures</h2>
 					<ul>
 						<li>Version: 2.3.x</li>
 						<li>PHP: 5.3+</li>
@@ -107,6 +162,7 @@
 						<li>Unofficial gateways: 25</li>
 						<li>Dependencies: Guzzle, Symfony</li>
 						<li>Author: Adrian Macneil, now The PHP League with many contributors</li>
+						<li>Activity: high</li>
 					</ul>
 				</section>
 
@@ -115,23 +171,21 @@
 						<h2>Official Gateways (1)</h2>
 						<div data-markdown>
 						* omnipay/2checkout
-						* omnipay/authorizenet
+						* **omnipay/authorizenet**
 						* omnipay/buckaroo
 						* omnipay/cardsave
 						* omnipay/coinbase
-						* omnipay/common
-						* omnipay/dummy
 						* omnipay/eway
 						* omnipay/firstdata
 						* omnipay/gocardless
+						* omnipay/manual
+						* omnipay/migs
 						</div>
 					</section>
 
 					<section>
 						<h2>Official Gateways (2)</h2>
 						<div data-markdown>
-						* omnipay/manual
-						* omnipay/migs
 						* omnipay/mollie
 						* omnipay/multisafepay
 						* omnipay/netaxept
@@ -140,14 +194,14 @@
 						* omnipay/payflow
 						* omnipay/paymentexpress
 						* omnipay/paypal
+						* omnipay/pin
+						* **omnipay/sagepay**
 						</div>
 					</section>
 
 					<section>
 						<h2>Official Gateways (3)</h2>
 						<div data-markdown>
-						* omnipay/pin
-						* omnipay/sagepay
 						* omnipay/securepay
 						* omnipay/stripe
 						* omnipay/targetpay
@@ -160,7 +214,7 @@
 					<section>
 						<h2>Unofficial Gateways (1)</h2>
 						<div data-markdown>
-						* academe/omnipay-helcim
+						* **academe/omnipay-helcim**
 						* agmscode/omnipay-agms
 						* alfaproject/omnipay-neteller
 						* alfaproject/omnipay-skrill
@@ -260,6 +314,18 @@
 						</ul>
 						</p><small>Refresh the page if you don't see the logos in their animated glory!</small></p>
 					</div>
+				</section>
+
+				<section data-background="#ffffff">
+					<h2>Composer - a slight diversion</h2>
+					<ul>
+						<li class="fragment">PHP dependency manager.</li>
+						<li class="fragment">Installs from a number of sources.</li>
+						<li class="fragment">Used in many frameworks and projects.</li>
+						<li class="fragment">Shared code; shared effort. DRY!</li>
+						<li class="fragment">More central to Drupal 8.</li>
+					</ul>
+					<img src="images/hqdefault-cropped.png" style="float: right" />
 				</section>
 
 				<section>
